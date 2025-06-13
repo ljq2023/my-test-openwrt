@@ -1,45 +1,43 @@
-name: Build OpenWrt for Newifi D2 (Newifi 3)
+name: Build OpenWrt for Newifi D2
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout source
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
-          sudo apt update
-          sudo apt install -y build-essential ccache ecj fastjar file g++ gawk \
-            gettext git java-propose-classpath libelf-dev libncurses5-dev \
-            libncursesw5-dev libssl-dev python3 python3-pyelftools python3-setuptools \
-            python3-distutils-extra python3-lib2to3 unzip wget zlib1g-dev rsync subversion || true
+          sudo apt-get update
+          sudo apt-get install -y build-essential ccache ecj fastjar file g++ gawk \
+            gettext git libelf-dev libncurses5-dev libncursesw5-dev libssl-dev \
+            python3 python3-setuptools python3-pyelftools unzip wget zlib1g-dev rsync subversion
 
-      - name: Clone OpenWrt
+      - name: Clone OpenWrt Source
         run: |
           git clone --depth=1 https://github.com/openwrt/openwrt.git openwrt
           cd openwrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
-      - name: Copy Custom Config
+      - name: Copy Custom Config (d2.config)
         run: |
-          cp config/newifi_d2.config openwrt/.config
+          cp config/d2.config openwrt/.config
 
-      - name: Build firmware
+      - name: Build Firmware
         run: |
           cd openwrt
           make defconfig
           make download -j8 || true
           make -j$(nproc)
 
-      - name: Upload firmware
+      - name: Upload Firmware
         uses: actions/upload-artifact@v4
         with:
           name: Newifi-D2-Firmware
-          path: openwrt/bin/targets/ramips/mt7621/
-
+          path: openwrt/bin/targets/
