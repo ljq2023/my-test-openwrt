@@ -1,4 +1,4 @@
-name: Build OpenWrt
+name: Build OpenWrt xiaomi 4c
 
 on:
   push:
