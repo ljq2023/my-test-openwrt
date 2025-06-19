@@ -97,7 +97,7 @@ EOF
       - name: Create package index
         run: |
           cd lede/bin/packages/mipsel_24kc
-          ../../../scripts/ipkg-make-index.sh . > Packages.tmp
+          sh -c '../../../scripts/ipkg-make-index.sh . > Packages.tmp'
           mv Packages.tmp Packages
           gzip -9c Packages > Packages.gz || true
 
