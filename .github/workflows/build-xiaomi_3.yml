@@ -97,7 +97,8 @@ EOF
       - name: Create package index
         run: |
           cd lede/bin/packages/mipsel_24kc
-          sh -c '../../../scripts/ipkg-make-index.sh . > Packages'
+          ../../../scripts/ipkg-make-index.sh . > Packages.tmp
+          mv Packages.tmp Packages
           gzip -9c Packages > Packages.gz || true
 
       - name: Upload firmware
