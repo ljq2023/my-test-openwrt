@@ -34,13 +34,13 @@ jobs:
       - name: Prepare .config
         run: |
           cd lede
-          cat <<EOF > .config
-CONFIG_MODULES=y
-CONFIG_TARGET_ramips=y
-CONFIG_TARGET_ramips_mt7620=y
-CONFIG_TARGET_ramips_mt7620_DEVICE_xiaomi_mir3=y
-CONFIG_BUSYBOX_CUSTOM=y
-CONFIG_LIBCURL_USE_OPENSSL=y
+          cat > .config <<EOF
+  CONFIG_MODULES=y
+  CONFIG_TARGET_ramips=y
+  CONFIG_TARGET_ramips_mt7620=y
+  CONFIG_TARGET_ramips_mt7620_DEVICE_xiaomi_mir3=y
+  CONFIG_BUSYBOX_CUSTOM=y
+  CONFIG_LIBCURL_USE_OPENSSL=y
 CONFIG_PACKAGE_luci=y
 CONFIG_PACKAGE_luci-i18n-base-zh-cn=y
 CONFIG_PACKAGE_luci-theme-bootstrap=y
