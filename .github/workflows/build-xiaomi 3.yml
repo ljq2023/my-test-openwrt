@@ -97,7 +97,7 @@ EOF
       - name: Create package index
         run: |
           cd lede/bin/packages/mipsel_24kc
-          ./scripts/ipkg-make-index.sh . > Packages
+          ../../../scripts/ipkg-make-index.sh . > Packages
           gzip -9c Packages > Packages.gz || true
 
       - name: Upload firmware
@@ -111,4 +111,3 @@ EOF
         with:
           name: OpenWrt-Packages
           path: lede/bin/packages/mipsel_24kc/
-
