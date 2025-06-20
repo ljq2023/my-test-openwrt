@@ -21,7 +21,6 @@ jobs:
             gettext git libncurses-dev libssl-dev python3 python3-all rsync unzip zlib1g-dev file wget
           sudo ln -s /usr/bin/sha256sum /usr/bin/sha256
 
-
       - name: Fix python distutils fallback
         run: |
           python3 -m ensurepip --upgrade || echo "ensurepip failed, ignore if already installed"
@@ -40,7 +39,7 @@ jobs:
           CONFIG_MODULES=y
           CONFIG_TARGET_ramips=y
           CONFIG_TARGET_ramips_mt7620=y
-          CONFIG_TARGET_ramips_mt7620_DEVICE_xiaomi_mir3=y
+          CONFIG_TARGET_ramips_mt7620_DEVICE_xiaomi_miwifi-r3=y
           CONFIG_BUSYBOX_CUSTOM=y
           CONFIG_LIBCURL_USE_OPENSSL=y
           CONFIG_PACKAGE_luci=y
@@ -97,12 +96,20 @@ jobs:
           EOF
           make defconfig
 
+      - name: Check target configuration
+        run: |
+          cd lede
+          echo "=== Checking available Xiaomi targets ==="
+          grep -r "xiaomi" target/linux/ramips/image/ || echo "No xiaomi targets found"
+          echo "=== Trying to build generic MT7620 firmware ==="
+          echo "Note: Xiaomi Mi Router 3 (MT7620A) may not be officially supported"
+          echo "This will build a generic MT7620 firmware that might work"
+
       - name: Start compiling
         run: |
           cd lede
           make -j$(nproc) download V=s
           make -j$(nproc) V=s
-
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
