@@ -264,22 +264,10 @@ jobs:
           echo "=== 尝试编译通用 MT7620 固件 ==="
           echo "注意：小米路由器 3 (MT7620A) 可能不被官方支持"
           echo "将生成通用 MT7620 固件，兼容性未知"
-      - name: 开始编译
-        run: |
-          cd lede
-          # 先运行 defconfig 生成完整配置
-          make defconfig
-          
-          # 清理默认选中的不需要的包
-          echo "正在清理不必要的软件包..."
-          
-          # 生成最终的精简配置
-          make defconfig
-          
-          # 显示最终配置大小估算
           echo "=== 配置文件分析 ==="
           grep "=y" .config | wc -l
           echo "已启用的配置项数量"
+      - name: 开始编译
         run: |
           cd lede
           make -j$(nproc) download V=s
