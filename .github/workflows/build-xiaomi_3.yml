@@ -103,18 +103,6 @@ jobs:
           make -j$(nproc) download V=s
           make -j$(nproc) V=s
 
-      - name: Create package index
-        run: |
-          cd lede/bin/packages/mipsel_24kc
-          find . -name '*.ipk' > ipk.list
-          mkdir tmpindex
-          while read pkg; do
-            cp "$pkg" tmpindex/ 2>/dev/null || continue
-          done < ipk.list
-          cd tmpindex
-          ../../../scripts/ipkg-make-index.sh . > Packages
-          gzip -9c Packages > Packages.gz || true
-
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
